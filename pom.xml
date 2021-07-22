@@ -8,18 +8,18 @@
 		<version>2.5.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.taxi</groupId>
-	<artifactId>taxi-kafka</artifactId>
+	<groupId>com</groupId>
+	<artifactId>taxisystem</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>taxi-kafka</name>
-	<description>Kafka module for the taxi system</description>
+	<name>taxisystem</name>
+	<description>Kafka stream for taxi system</description>
 	<properties>
 		<java.version>16</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.kafka</groupId>
