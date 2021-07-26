@@ -1,11 +1,15 @@
 package com.taxisystem.Consumer;
 
+import com.taxisystem.Database.DatabaseConnection;
 import com.uber.h3core.H3Core;
 import com.uber.h3core.util.GeoCoord;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.List;
 
 @Service
@@ -18,6 +22,7 @@ public class DriverConsumer {
 //        for (String ele: info){
 //            System.out.println(ele);
 //        }
+        int id = Integer.parseInt(info[0]);
         double receivedLong = Double.parseDouble(info[1]);
         double receivedLat = Double.parseDouble(info[2]);
         int res = 9;
@@ -29,6 +34,6 @@ public class DriverConsumer {
 //            System.out.println(ele);
 //            System.out.println(hexAddr);
 //        }
-
+        DatabaseConnection.writeToDB(id, hexAddr, receivedLat, receivedLong);
     }
 }
