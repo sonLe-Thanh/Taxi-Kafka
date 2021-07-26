@@ -15,8 +15,8 @@ import java.util.Random;
 public class Producer {
 
     @Autowired
-    KafkaTemplate<String, Driver> kafkaTemplate;
-    private static final String TOPIC = "taxi_driver_1";
+    KafkaTemplate<String, String> kafkaTemplate;
+    private static final String TOPIC = "taxi_driver_producer_1";
 
     @GetMapping("publish/{message}")
     public String post(@PathVariable("message") final String message){
@@ -25,8 +25,9 @@ public class Producer {
         int id = rand.nextInt(bound);
         double longitude = rand.nextInt(bound) + rand.nextDouble();
         double latitude = rand.nextInt(bound) + rand.nextDouble();
+        Driver newDriver = new Driver(id, longitude, latitude);
 
-        kafkaTemplate.send(TOPIC, new Driver(id, longitude, latitude));
+        kafkaTemplate.send(TOPIC, newDriver.toString());
         return "Publish successfully!";
     }
 }

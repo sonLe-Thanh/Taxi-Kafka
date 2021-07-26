@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class DriverConsumer {
 
-    @KafkaListener(topics = "taxi_driver_1", containerFactory = "kafkaListenerContainerFactory" , groupId = "group_id")
-    public void consume(Driver driver) throws JsonProcessingException {
+    @KafkaListener(topics = "taxi_driver_producer_1", containerFactory = "kafkaListenerContainerFactory" , groupId = "group_id")
+    public void consume(String driverInfo) throws JsonProcessingException {
         System.out.println("Consumed message: ");
     }
 }

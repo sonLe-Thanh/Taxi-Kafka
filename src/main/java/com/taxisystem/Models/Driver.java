@@ -34,4 +34,9 @@ public class Driver {
     public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
+
+    @Override
+    public String toString(){
+        return "{\"id\":"+id + ",\"longitude\":"+longitude+",\"latitude\":"+latitude+"}";
+    }
 }
