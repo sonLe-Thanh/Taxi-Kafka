@@ -37,6 +37,6 @@ public class Driver {
 
     @Override
     public String toString(){
-        return "{\"id\":"+id + ",\"longitude\":"+longitude+",\"latitude\":"+latitude+"}";
+        return id + ","+longitude+","+latitude;
     }
 }

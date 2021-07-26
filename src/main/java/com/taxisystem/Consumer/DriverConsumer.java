@@ -1,15 +1,34 @@
 package com.taxisystem.Consumer;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.taxisystem.Models.Driver;
+import com.uber.h3core.H3Core;
+import com.uber.h3core.util.GeoCoord;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.util.List;
 
 @Service
 public class DriverConsumer {
 
     @KafkaListener(topics = "taxi_driver_producer_1", containerFactory = "kafkaListenerContainerFactory" , groupId = "group_id")
-    public void consume(String driverInfo) throws JsonProcessingException {
-        System.out.println("Consumed message: ");
+    public void consume(String driverInfo) throws IOException {
+        System.out.println("Consumed message: " + driverInfo);
+        String [] info  = driverInfo.split(",");
+//        for (String ele: info){
+//            System.out.println(ele);
+//        }
+        double receivedLong = Double.parseDouble(info[1]);
+        double receivedLat = Double.parseDouble(info[2]);
+        int res = 9;
+
+        H3Core h3 = H3Core.newInstance();
+        String hexAddr = h3.geoToH3Address(receivedLat, receivedLong, res);
+        List<GeoCoord> geoCoords = h3.h3ToGeoBoundary(hexAddr);
+//        for (GeoCoord ele: geoCoords){
+//            System.out.println(ele);
+//            System.out.println(hexAddr);
+//        }
+
     }
 }
