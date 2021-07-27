@@ -8,5 +8,7 @@
 # To do
 - Producer (Done)
 - Consumer (Doing)
-- Uber H3 for indexing location (Tested)
-- Start queries
+- Uber H3 for indexing location (Done)
+- Start queries (Not yet tested)
+- Reformat code
+- Add rRPC components
