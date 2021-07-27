@@ -7,15 +7,12 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.List;
 
 @Service
-public class DriverConsumer {
+public class UserConsumer {
 
-    @KafkaListener(topics = "taxi_driver_producer_1", containerFactory = "driverKafkaListenerContainerFactory" , groupId = "group_id")
+    @KafkaListener(topics = "taxi_user_producer_1", containerFactory = "userKafkaListenerContainerFactory" , groupId = "group_id")
     public void consume(String driverInfo) throws IOException {
         System.out.println("Consumed message: " + driverInfo);
         String [] info  = driverInfo.split(",");
@@ -26,8 +23,8 @@ public class DriverConsumer {
 
         H3Core h3 = H3Core.newInstance();
         String hexAddr = h3.geoToH3Address(receivedLat, receivedLong, res);
-        List<GeoCoord> geoCoords = h3.h3ToGeoBoundary(hexAddr);
+//        List<GeoCoord> geoCoords = h3.h3ToGeoBoundary(hexAddr);
 
-        DatabaseConnection.writeToDB(id, hexAddr, receivedLat, receivedLong);
+        DatabaseConnection.queryInDB1Cell(hexAddr);
     }
 }
