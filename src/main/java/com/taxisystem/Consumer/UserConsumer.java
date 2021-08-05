@@ -14,7 +14,7 @@ import java.util.List;
 @Service
 public class UserConsumer {
 
-    @KafkaListener(topics = "taxi_user_producer_1", containerFactory = "userKafkaListenerContainerFactory" , groupId = "group_id")
+    @KafkaListener(topics = "taxi_user_producer_1", containerFactory = "userKafkaListenerStringContainerFactory" , groupId = "group_id")
     public String consume(String driverInfo) throws IOException {
         System.out.println("Consumed message: " + driverInfo);
         String [] info  = driverInfo.split(",");

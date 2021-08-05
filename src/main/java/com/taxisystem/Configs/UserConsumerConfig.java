@@ -18,11 +18,11 @@ import java.util.Map;
 @Configuration
 public class UserConsumerConfig {
     @Autowired
-    private KafkaProperties kafkaProperties;
+    private KafkaProperties userKafkaProperties;
 
     @Bean
-    public Map<String, Object> consumerConfigs() {
-        Map<String, Object> props = new HashMap<>(kafkaProperties.buildConsumerProperties());
+    public Map<String, Object> userConsumerConfigs() {
+        Map<String, Object> props = new HashMap<>(userKafkaProperties.buildConsumerProperties());
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
@@ -33,15 +33,15 @@ public class UserConsumerConfig {
 
 
     @Bean
-    public ConsumerFactory<String, String> stringConsumerFactory() {
-        return new DefaultKafkaConsumerFactory<>(consumerConfigs(), new StringDeserializer(), new StringDeserializer());
+    public ConsumerFactory<String, String> userStringConsumerFactory() {
+        return new DefaultKafkaConsumerFactory<>(userConsumerConfigs(), new StringDeserializer(), new StringDeserializer());
     }
 
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, String> userKafkaListenerStringContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, String> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(stringConsumerFactory());
+        factory.setConsumerFactory(userStringConsumerFactory());
 
         return factory;
     }

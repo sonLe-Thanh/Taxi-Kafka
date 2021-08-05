@@ -14,7 +14,7 @@ import java.util.Random;
 public class UserProducer {
 
     @Autowired
-    KafkaTemplate<String, String> kafkaTemplate;
+    KafkaTemplate<String, String> userKafkaTemplate;
     private static final String TOPIC = "taxi_user_producer_1";
 
     @GetMapping("user/publish")
@@ -26,7 +26,7 @@ public class UserProducer {
         double latitude = rand.nextInt(bound) + rand.nextDouble();
         User newUser = new User(id, longitude, latitude);
 
-        kafkaTemplate.send(TOPIC, newUser.toString());
+        userKafkaTemplate.send(TOPIC, newUser.toString());
         return "Publish successfully!";
     }
 }

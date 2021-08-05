@@ -19,7 +19,7 @@ public class UserProducerConfig {
     private KafkaProperties kafkaProperties;
 
     @Bean
-    public Map<String, Object> producerConfigs() {
+    public Map<String, Object> userProducerConfigs() {
         Map<String, Object> props = new HashMap<>(kafkaProperties.buildProducerProperties());
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -28,12 +28,12 @@ public class UserProducerConfig {
     }
 
     @Bean
-    public ProducerFactory<String, String> producerFactory() {
-        return new DefaultKafkaProducerFactory<>(producerConfigs());
+    public ProducerFactory<String, String> userProducerFactory() {
+        return new DefaultKafkaProducerFactory<>(userProducerConfigs());
     }
 
     @Bean
-    public KafkaTemplate<String, String> kafkaTemplate() {
-        return new KafkaTemplate<>(producerFactory());
+    public KafkaTemplate<String, String> userKafkaTemplate() {
+        return new KafkaTemplate<>(userProducerFactory());
     }
 }
