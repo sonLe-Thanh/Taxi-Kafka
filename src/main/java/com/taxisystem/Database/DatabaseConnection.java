@@ -9,11 +9,11 @@ import com.taxisystem.Models.Driver;
 
 public class DatabaseConnection {
     public static void writeToDB(int driver_id, String cell_id, double latitude, double longitude){
-        String dbURL = "jdbc:postgresql://localhost:5432/taxi system?currentSchema=\"Taxi coordinate\"";
+        String dbURL = "jdbc:postgresql://localhost:5432/postgres";
         try (Connection conn = DriverManager.getConnection(dbURL, "postgres", "dunghoinua")) {
             if (conn != null){
                 System.out.println("Connection success");
-                String query = "INSERT INTO Taxi(driver_id, cell_id, latitude, longitude) VALUES (?,?,?,?)";
+                String query = "INSERT INTO \"TaxiPosition\"(driver_id, cell_id, latitude, longitude) VALUES (?,?,?,?)";
                 PreparedStatement psqlstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
                 psqlstmt.setInt(1, driver_id);
                 psqlstmt.setString(2, cell_id);
@@ -30,7 +30,7 @@ public class DatabaseConnection {
     }
 
     public static List<Driver> queryInDB1Cell(String cell_id){
-        String dbURL = "jdbc:postgresql://localhost:5432/taxi system?currentSchema=\"Taxi coordinate\"";
+        String dbURL = "jdbc:postgresql://localhost:5432/postgres";
         try (Connection conn = DriverManager.getConnection(dbURL, "postgres", "dunghoinua")) {
             if (conn != null){
                 List<Driver> listResult = new LinkedList<Driver>();
