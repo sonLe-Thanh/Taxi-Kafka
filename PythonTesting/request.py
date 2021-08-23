@@ -3,7 +3,7 @@ import time
 import random
 
 start = time.time()
-my_api_key = "AIzaSyAL0ca3F7rIMYEqOwzaRyERAI0Zpbbgwwo"
+# my_api_key = "AIzaSyAL0ca3F7rIMYEqOwzaRyERAI0Zpbbgwwo"
 
 class PointCoordinate:
     def __init__(self, latitude, longitude):
@@ -11,7 +11,7 @@ class PointCoordinate:
         self.longitude = longitude
 
     def __str__(self):
-        return str(self.latitude) + ", " + str(self.longitude)
+        return str(self.longitude) + "," + str(self.latitude)
 
 def random_point(num_rand):
     counter = 0
@@ -35,7 +35,7 @@ def random_point(num_rand):
 
     return point_list
 
-num_random = 25
+num_random = 100
 list_point = random_point(num_random)
 
 src = PointCoordinate(10.838980, 106.647141)
@@ -43,14 +43,13 @@ src = PointCoordinate(10.838980, 106.647141)
 prepare_dest = ""
 for index, point in enumerate(list_point):
     if index != len(list_point) -1:
-        prepare_dest += str(point) + "|"
+        prepare_dest += str(point) + ";"
     else:
         prepare_dest += str(point)
 
 print(prepare_dest)
 
 
-response=requests.post('https://maps.googleapis.com/maps/api/distancematrix/json?origins='+str(src)+
-                       '&destinations='+prepare_dest+'&key='+my_api_key)
+response=requests.post('http://127.0.0.1:5000/table/v1/driving/'+str(src)+";"+prepare_dest+'?sources=0')
 print(response.json())
 print("Execution time: ", time.time()-start)
