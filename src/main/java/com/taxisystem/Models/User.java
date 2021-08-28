@@ -4,11 +4,13 @@ public class User {
     private int id;
     private double longitude;
     private double latitude;
+    private int seat;
 
-    public User(int id, double longitude, double latitude) {
+    public User(int id, double longitude, double latitude, int seat) {
         this.id = id;
         this.longitude = longitude;
         this.latitude = latitude;
+        this.seat = seat;
     }
 
     public int getId() {
@@ -35,8 +37,16 @@ public class User {
         this.latitude = latitude;
     }
 
+    public double getSeat() {
+        return seat;
+    }
+
+    public void setSeat(int seat) {
+        this.seat = seat;
+    }
+
     @Override
     public String toString(){
-        return id + ","+longitude+","+latitude;
+        return id + ","+longitude+","+latitude+","+seat;
     }
 }

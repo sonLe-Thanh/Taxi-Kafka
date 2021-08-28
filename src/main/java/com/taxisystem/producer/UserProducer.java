@@ -1,4 +1,4 @@
-package com.taxisystem.Producer;
+package com.taxisystem.producer;
 
 import com.taxisystem.Models.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,10 @@ public class UserProducer {
         int id = rand.nextInt(bound);
         double longitude = rand.nextInt(bound) + rand.nextDouble();
         double latitude = rand.nextInt(bound) + rand.nextDouble();
-        User newUser = new User(id, longitude, latitude);
+        int[] seat_list = {2,4,7};
+        int random_seat_index = rand.nextInt(seat_list.length);
+        int seat = seat_list[random_seat_index];
+        User newUser = new User(id, longitude, latitude, seat);
 
         userKafkaTemplate.send(TOPIC, newUser.toString());
         return "Publish successfully!";

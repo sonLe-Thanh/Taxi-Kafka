@@ -8,17 +8,18 @@ import java.util.Vector;
 import com.taxisystem.Models.Driver;
 
 public class DatabaseConnection {
-    public static void writeToDB(int driver_id, String cell_id, double latitude, double longitude){
+    public static void writeToDB(int driver_id, String cell_id, double latitude, double longitude, int seat){
         String dbURL = "jdbc:postgresql://localhost:5432/postgres";
-        try (Connection conn = DriverManager.getConnection(dbURL, "postgres", "dunghoinua")) {
+        try (Connection conn = DriverManager.getConnection(dbURL, "postgres", "nhoxso33")) {
             if (conn != null){
                 System.out.println("Connection success");
-                String query = "INSERT INTO \"TaxiPosition\"(driver_id, cell_id, latitude, longitude) VALUES (?,?,?,?)";
+                String query = "INSERT INTO \"TaxiPosition\"(driver_id, cell_id, latitude, longitude, seat) VALUES (?,?,?,?,?)";
                 PreparedStatement psqlstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
                 psqlstmt.setInt(1, driver_id);
                 psqlstmt.setString(2, cell_id);
                 psqlstmt.setDouble(3, latitude);
                 psqlstmt.setDouble(4, longitude);
+                psqlstmt.setDouble(5, seat);
                 psqlstmt.executeUpdate();
             }
             else {
@@ -31,7 +32,7 @@ public class DatabaseConnection {
 
     public static List<Driver> queryInDB1Cell(String cell_id){
         String dbURL = "jdbc:postgresql://localhost:5432/postgres";
-        try (Connection conn = DriverManager.getConnection(dbURL, "postgres", "dunghoinua")) {
+        try (Connection conn = DriverManager.getConnection(dbURL, "postgres", "nhoxso33")) {
             if (conn != null){
                 List<Driver> listResult = new LinkedList<Driver>();
                 System.out.println("Connection success");
@@ -43,7 +44,8 @@ public class DatabaseConnection {
                     int id = resultSet.getInt("driver_id");
                     double longitude = resultSet.getDouble("longitude");
                     double latitude = resultSet.getDouble("latitude");
-                    Driver newDriver =  new Driver(id, longitude, latitude);
+                    int seat = resultSet.getInt("seat");
+                    Driver newDriver =  new Driver(id, longitude, latitude, seat);
                     listResult.add(newDriver);
                 }
                 return listResult;
