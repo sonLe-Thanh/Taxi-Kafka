@@ -30,13 +30,13 @@ public class DatabaseConnection {
         }
     }
 
-    public static List<Driver> queryInDB1Cell(String cell_id){
+    public static List<Driver> queryInDB1Cell(String cell_id, int seat){
         String dbURL = "jdbc:postgresql://localhost:5432/postgres";
         try (Connection conn = DriverManager.getConnection(dbURL, "postgres", "nhoxso33")) {
             if (conn != null){
                 List<Driver> listResult = new LinkedList<Driver>();
                 System.out.println("Connection success");
-                String query = "SELECT * FROM Taxi WHERE cell_id = ?";
+                String query = "SELECT * FROM Taxi WHERE cell_id = ? AND seat = ?";
                 PreparedStatement psqlstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
                 psqlstmt.setString(1, cell_id);
                 ResultSet resultSet = psqlstmt.executeQuery();
@@ -44,7 +44,6 @@ public class DatabaseConnection {
                     int id = resultSet.getInt("driver_id");
                     double longitude = resultSet.getDouble("longitude");
                     double latitude = resultSet.getDouble("latitude");
-                    int seat = resultSet.getInt("seat");
                     Driver newDriver =  new Driver(id, longitude, latitude, seat);
                     listResult.add(newDriver);
                 }

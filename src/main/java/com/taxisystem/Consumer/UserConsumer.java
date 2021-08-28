@@ -21,12 +21,13 @@ public class UserConsumer {
         int id = Integer.parseInt(info[0]);
         double receivedLong = Double.parseDouble(info[1]);
         double receivedLat = Double.parseDouble(info[2]);
+        int seat = Integer.parseInt(info[3]);
         int res = 9;
 
         H3Core h3 = H3Core.newInstance();
         String hexAddr = h3.geoToH3Address(receivedLat, receivedLong, res);
 
-        List<Driver> cellDrivers = DatabaseConnection.queryInDB1Cell(hexAddr);
+        List<Driver> cellDrivers = DatabaseConnection.queryInDB1Cell(hexAddr,seat);
 
         List<Driver> closestDrivers =  ClosestDrivers.getClosestDriver(cellDrivers, receivedLat, receivedLong, 5);
         StringBuilder resultString = new StringBuilder();
