@@ -19,7 +19,7 @@ public class DatabaseConnection {
                 psqlstmt.setString(2, cell_id);
                 psqlstmt.setDouble(3, latitude);
                 psqlstmt.setDouble(4, longitude);
-                psqlstmt.setDouble(5, seat);
+                psqlstmt.setInt(5, seat);
                 psqlstmt.executeUpdate();
             }
             else {
@@ -39,6 +39,7 @@ public class DatabaseConnection {
                 String query = "SELECT * FROM Taxi WHERE cell_id = ? AND seat = ?";
                 PreparedStatement psqlstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
                 psqlstmt.setString(1, cell_id);
+                psqlstmt.setInt(2, seat);
                 ResultSet resultSet = psqlstmt.executeQuery();
                 while (resultSet.next()){
                     int id = resultSet.getInt("driver_id");

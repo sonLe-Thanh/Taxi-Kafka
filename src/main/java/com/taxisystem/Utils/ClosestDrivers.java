@@ -1,23 +1,40 @@
 package com.taxisystem.Utils;
 
 import com.taxisystem.Models.Driver;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.util.Arrays;
+import java.io.*;
+import java.net.*;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.lang.Math;
-import com.taxisystem.Models.ORSMTable;
+
 
 public class ClosestDrivers {
     private static final String mapServerAdd = "http://127.0.0.1:5000";
+    private static final String tableService = "/table/v1/driving/";
 
-    private static void executeAPICall(List<Driver> driverList, double longitude, double latitude) throws IOException, InterruptedException {
+    private static String readAll(Reader reader) throws IOException {
+        StringBuilder stringBuilder = new StringBuilder();
+        int chr;
+        while ((chr = reader.read())!=-1){
+            stringBuilder.append((char) chr);
+        }
+        return stringBuilder.toString();
+    }
+
+    private static JSONObject readJsonFromUrl (URL url) throws IOException {
+        try (InputStream inputStream = url.openStream()) {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
+            String jsonText = readAll(reader);
+            return new JSONObject(jsonText);
+        }
+    }
+    private static JSONObject executeAPICall(List<Driver> driverList, double longitude, double latitude) throws IOException {
+
+        //Params prepare
         StringBuilder prepareParams = new StringBuilder();
         prepareParams.append(longitude).append(",").append(latitude).append(";");
         long lenList = driverList.size();
@@ -32,38 +49,47 @@ public class ClosestDrivers {
             }
         }
         prepareParams.append("sources=0");
-        var client = HttpClient.newHttpClient();
-        var request = HttpRequest.newBuilder(
-                URI.create(mapServerAdd+"/table/v1/driving/"+prepareParams)).build();
-        var response = client.send(request, new JsonBodyHandler<>(ORSMTable.class));
-//        URLConnection connection = new URL(mapServerAdd+"/table/v1/driving/"+prepareParams).openConnection();
 
+
+        //Do real things
+        URL url = new URL(mapServerAdd+tableService+ prepareParams);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        JSONObject responseInfo;
+        conn.connect();
+        int responseCode = conn.getResponseCode();
+        if (responseCode != 200) throw new RuntimeException("HttpResponseCode: "+ responseCode);
+        else {
+            responseInfo = readJsonFromUrl(url);
+        }
+        return responseInfo;
     }
-    public static List<Driver> getClosestDriver(List<Driver> driverList, double latitude, double longitude, int k){
+
+
+    public static List<Driver> getClosestDriver(List<Driver> driverList, double latitude, double longitude, int k) throws IOException {
         if (driverList == null){
             return null;
         }
         int n = driverList.size();
         List<Driver> listResult = new LinkedList<Driver>();
-        double [] listDistance = new double[n];
         // Call API from map server
-
-
-        for (int i =0; i<n; i++){
-            double driverLat = driverList.get(i).getLatitude();
-            double driverLong = driverList.get(i).getLongitude();
-            listDistance[i] = Math.sqrt(Math.pow(latitude - driverLat,2)+Math.pow(longitude-driverLong,2));
-        }
-        Arrays.sort(listDistance);
-        double kdist = listDistance[k-1];
-
-        for (Driver driver : driverList) {
-            double driverLat = driver.getLatitude();
-            double driverLong = driver.getLongitude();
-            double distance = Math.sqrt(Math.pow(latitude - driverLat, 2) + Math.pow(longitude - driverLong, 2));
-            if (distance <= kdist) {
-                listResult.add(driver);
+        JSONObject response = executeAPICall(driverList, longitude, latitude);
+//        String responseString = response.toString();
+        JSONArray durations = response.getJSONArray("durations");
+        JSONArray destinations = response.getJSONArray("durations");
+        ArrayList<Integer> kClosest = new ArrayList<>();
+        if (durations.length() <= 5){
+            for (int i=0;i<durations.length();i++){
+                kClosest.add(i);
             }
+        }
+        else {
+            kClosest = KSmallest.getKSmallestIndecies(durations, k);
+        }
+        //Have index of these drivers
+        int lenKClosest = kClosest.toArray().length;
+        for (int i=0; i<lenKClosest;i++){
+            listResult.add(driverList.get(kClosest.get(i)));
         }
         return listResult;
     }
