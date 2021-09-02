@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.PriorityQueue;
 
 public class KSmallest {
-    public static ArrayList<Integer> getKSmallestIndecies(JSONArray arr, int k){
+    public static ArrayList<Integer> getKSmallestIndices(JSONArray arr, int k){
         ArrayList<Integer> result = new ArrayList<>();
         PriorityQueue<Pair> priorityQueue = new PriorityQueue<>();
         for (int i =0; i<arr.length();i++){

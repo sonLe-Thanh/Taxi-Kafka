@@ -34,7 +34,6 @@ public class ClosestDrivers {
     }
     private static JSONObject executeAPICall(List<Driver> driverList, double longitude, double latitude) throws IOException {
 
-        //Params prepare
         StringBuilder prepareParams = new StringBuilder();
         prepareParams.append(longitude).append(",").append(latitude).append(";");
         long lenList = driverList.size();
@@ -51,7 +50,6 @@ public class ClosestDrivers {
         prepareParams.append("sources=0");
 
 
-        //Do real things
         URL url = new URL(mapServerAdd+tableService+ prepareParams);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
@@ -74,7 +72,6 @@ public class ClosestDrivers {
         List<Driver> listResult = new LinkedList<Driver>();
         // Call API from map server
         JSONObject response = executeAPICall(driverList, longitude, latitude);
-//        String responseString = response.toString();
         JSONArray durations = response.getJSONArray("durations");
         JSONArray destinations = response.getJSONArray("durations");
         ArrayList<Integer> kClosest = new ArrayList<>();
@@ -84,9 +81,8 @@ public class ClosestDrivers {
             }
         }
         else {
-            kClosest = KSmallest.getKSmallestIndecies(durations, k);
+            kClosest = KSmallest.getKSmallestIndices(durations, k);
         }
-        //Have index of these drivers
         int lenKClosest = kClosest.toArray().length;
         for (int i=0; i<lenKClosest;i++){
             listResult.add(driverList.get(kClosest.get(i)));
