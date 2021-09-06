@@ -75,8 +75,8 @@ public class ClosestDrivers {
         JSONArray durations_arr = response.getJSONArray("durations");
         JSONArray durations = (JSONArray) durations_arr.get(0);
         ArrayList<Integer> kClosest = new ArrayList<>();
-        if (durations.length() <= 5){
-            for (int i=0;i<durations.length();i++){
+        if (durations.length() < 6){
+            for (int i=1;i<durations.length();i++){
                 kClosest.add(i);
             }
         }
@@ -85,7 +85,7 @@ public class ClosestDrivers {
         }
         int lenKClosest = kClosest.toArray().length;
         for (int i=0; i<lenKClosest;i++){
-            listResult.add(driverList.get(kClosest.get(i)));
+            listResult.add(driverList.get(kClosest.get(i)-1));
         }
         return listResult;
     }

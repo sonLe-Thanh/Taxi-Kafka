@@ -5,12 +5,22 @@ public class Driver {
     private double longitude;
     private double latitude;
     private int seat;
+    private String hexAdd;
 
     public Driver(int id, double longitude, double latitude, int seat) {
         this.id = id;
         this.longitude = longitude;
         this.latitude = latitude;
         this.seat = seat;
+        this.hexAdd = "";
+    }
+
+    public Driver(int id, double longitude, double latitude, int seat, String hexAdd) {
+        this.id = id;
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.seat = seat;
+        this.hexAdd = hexAdd;
     }
 
     public int getId() {
@@ -45,8 +55,18 @@ public class Driver {
         this.seat = seat;
     }
 
+    public String getHexAdd(){ return this.hexAdd;}
+    public void setHexAdd(String hexAdd) {
+        this.hexAdd = hexAdd;
+    }
+
     @Override
     public String toString(){
-        return id + ","+longitude+","+latitude + ","+ seat;
+        if (hexAdd.length() > 10){
+            return id + ","+longitude+","+latitude+","+seat+","+hexAdd;
+        }
+        else {
+            return id + ","+longitude+","+latitude+","+seat;
+        }
     }
 }

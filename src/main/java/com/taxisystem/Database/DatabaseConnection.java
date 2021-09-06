@@ -12,7 +12,6 @@ public class DatabaseConnection {
         String dbURL = "jdbc:postgresql://localhost:5432/postgres";
         try (Connection conn = DriverManager.getConnection(dbURL, "postgres", "dunghoinua")) {
             if (conn != null){
-                System.out.println("Connection success");
                 String query = "INSERT INTO \"TaxiPosition\"(driver_id, cell_id, latitude, longitude, seat) VALUES (?,?,?,?,?)";
                 PreparedStatement psqlstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
                 psqlstmt.setInt(1, driver_id);
@@ -32,10 +31,9 @@ public class DatabaseConnection {
 
     public static List<Driver> queryInDB1Cell(String cell_id, int seat){
         String dbURL = "jdbc:postgresql://localhost:5432/postgres";
+        List<Driver> listResult = new LinkedList<Driver>();
         try (Connection conn = DriverManager.getConnection(dbURL, "postgres", "dunghoinua")) {
             if (conn != null){
-                List<Driver> listResult = new LinkedList<Driver>();
-                System.out.println("Connection success");
                 String query = "SELECT * FROM \"TaxiPosition\" WHERE cell_id = ? AND seat = ?";
                 PreparedStatement psqlstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
                 psqlstmt.setString(1, cell_id);
@@ -52,11 +50,11 @@ public class DatabaseConnection {
             }
             else {
                 System.out.println("Failed to connect");
-                return null;
+                return listResult;
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            return null;
+            return listResult;
         }
     }
 }
