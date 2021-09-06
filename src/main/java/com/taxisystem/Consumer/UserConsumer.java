@@ -9,6 +9,8 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StopWatch;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
@@ -47,6 +49,10 @@ public class UserConsumer {
 
         System.out.println(resultString);
         stopWatch.stop();
+//        File file = new File("/Users/thanhson/Documents/Learn/Taxi\\ project/kafka/time.txt");
+//        FileWriter fileWriter = new FileWriter(file,true);
+//        fileWriter.write(String.valueOf(stopWatch.getTotalTimeSeconds()));
+//        fileWriter.close();
         System.out.println("Elapsed Time in minutes: "+ stopWatch.getTotalTimeSeconds());
         return resultString.toString();
     }

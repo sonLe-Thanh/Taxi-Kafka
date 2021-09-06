@@ -1,14 +1,18 @@
 # HOW TO START
-- First, install Kafka and Java.
+- First, install Kafka, ORSM and Java.
 - Start Kafka zookeeper, the Kafka server.
 - Create a new topic, namely taxi_topic_1.
-- On Kafka-consumer-console, connect to the created topics.
+- Follow the instructions on ORSM's github page to start the ORSM server on port 5000.
 - Start the code using Java Spring Boot.
-- Open localhost:8081/kafka/publish/{msg} where {msg} be some random string and hit enter, you can see the publish driver.
-# To do
-- Producer (Done)
-- Consumer (Doing)
-- Uber H3 for indexing location (Done)
-- Start queries (Not yet tested)
-- Reformat code
-- Add rRPC components
+- http://127.0.0.1:8081/kafka/driver/publish to publish data for driver side, the required parameters are  
+  * 'id': int
+  * 'longitude': double
+  * 'latitude': double
+  * 'seat': int
+  * 'hexAddr': String
+- http://127.0.0.1:8081/kafka/user/publish to publish data for driver side, the required parameters are
+    * 'longitude': double
+    * 'latitude': double
+    * 'seat': int
+    * 'hexAddr': String
+- The hexAddr should be indexed using H3 with resolution of 10.    

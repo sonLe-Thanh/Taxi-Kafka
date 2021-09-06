@@ -24,8 +24,6 @@ public class DriverConsumer {
         double receivedLat = Double.parseDouble(info[2]);
         int seat = Integer.parseInt(info[3]);
         String hexAddr = info[4];
-
-
         DatabaseConnection.writeToDB(id, hexAddr, receivedLat, receivedLong, seat);
     }
 }
