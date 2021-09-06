@@ -56,6 +56,7 @@ public class ClosestDrivers {
         JSONObject responseInfo;
         conn.connect();
         int responseCode = conn.getResponseCode();
+        responseInfo = readJsonFromUrl(url);
         if (responseCode != 200) throw new RuntimeException("HttpResponseCode: "+ responseCode);
         else {
             responseInfo = readJsonFromUrl(url);
@@ -68,12 +69,11 @@ public class ClosestDrivers {
         if (driverList == null){
             return null;
         }
-        int n = driverList.size();
         List<Driver> listResult = new LinkedList<Driver>();
         // Call API from map server
         JSONObject response = executeAPICall(driverList, longitude, latitude);
-        JSONArray durations = response.getJSONArray("durations");
-        JSONArray destinations = response.getJSONArray("durations");
+        JSONArray durations_arr = response.getJSONArray("durations");
+        JSONArray durations = (JSONArray) durations_arr.get(0);
         ArrayList<Integer> kClosest = new ArrayList<>();
         if (durations.length() <= 5){
             for (int i=0;i<durations.length();i++){

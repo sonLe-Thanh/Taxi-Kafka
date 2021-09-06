@@ -22,8 +22,14 @@ public class DriverProducer {
         int bound = 200;
         int seatBound = 3;
         int id = rand.nextInt(bound);
-        double longitude = rand.nextInt(bound) + rand.nextDouble();
-        double latitude = rand.nextInt(bound) + rand.nextDouble();
+        double max_lat = 10.963984;
+		double max_long = 106.477055;
+
+		double min_lat = 10.699614;
+		double min_long = 106.579939;
+
+        double longitude = min_long + (max_long - min_long) * rand.nextDouble();
+        double latitude = min_lat + (max_lat - min_lat) * rand.nextDouble();
         int idx = rand.nextInt(seatBound);
         int seat = seatList[idx];
         Driver newDriver = new Driver(id, longitude, latitude, seat);

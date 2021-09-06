@@ -23,7 +23,7 @@ public class DriverConsumer {
         double receivedLong = Double.parseDouble(info[1]);
         double receivedLat = Double.parseDouble(info[2]);
         int seat = Integer.parseInt(info[3]);
-        int res = 9;
+        int res = 10;
 
         H3Core h3 = H3Core.newInstance();
         String hexAddr = h3.geoToH3Address(receivedLat, receivedLong, res);

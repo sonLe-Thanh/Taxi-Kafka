@@ -22,8 +22,14 @@ public class UserProducer {
         Random rand = new Random();
         int bound = 200;
         int id = rand.nextInt(bound);
-        double longitude = rand.nextInt(bound) + rand.nextDouble();
-        double latitude = rand.nextInt(bound) + rand.nextDouble();
+        double max_lat = 10.963984;
+        double max_long = 106.477055;
+
+        double min_lat = 10.699614;
+        double min_long = 106.579939;
+
+        double longitude = min_long + (max_long - min_long) * rand.nextDouble();
+        double latitude = min_lat + (max_lat - min_lat) * rand.nextDouble();
         int[] seat_list = {2,4,7};
         int random_seat_index = rand.nextInt(seat_list.length);
         int seat = seat_list[random_seat_index];

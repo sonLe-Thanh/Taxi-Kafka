@@ -11,7 +11,7 @@ public class KSmallest {
         ArrayList<Integer> result = new ArrayList<>();
         PriorityQueue<Pair> priorityQueue = new PriorityQueue<>();
         for (int i =0; i<arr.length();i++){
-            priorityQueue.add(new Pair(i, Double.parseDouble(arr.getString(i))));
+            priorityQueue.add(new Pair(i, arr.getDouble(i)));
         }
         for (int i=0;i<k;i++){
             Pair nextSmallest = priorityQueue.poll();

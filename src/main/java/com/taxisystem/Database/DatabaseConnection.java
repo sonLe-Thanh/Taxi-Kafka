@@ -10,7 +10,7 @@ import com.taxisystem.Models.Driver;
 public class DatabaseConnection {
     public static void writeToDB(int driver_id, String cell_id, double latitude, double longitude, int seat){
         String dbURL = "jdbc:postgresql://localhost:5432/postgres";
-        try (Connection conn = DriverManager.getConnection(dbURL, "postgres", "nhoxso33")) {
+        try (Connection conn = DriverManager.getConnection(dbURL, "postgres", "dunghoinua")) {
             if (conn != null){
                 System.out.println("Connection success");
                 String query = "INSERT INTO \"TaxiPosition\"(driver_id, cell_id, latitude, longitude, seat) VALUES (?,?,?,?,?)";
@@ -32,11 +32,11 @@ public class DatabaseConnection {
 
     public static List<Driver> queryInDB1Cell(String cell_id, int seat){
         String dbURL = "jdbc:postgresql://localhost:5432/postgres";
-        try (Connection conn = DriverManager.getConnection(dbURL, "postgres", "nhoxso33")) {
+        try (Connection conn = DriverManager.getConnection(dbURL, "postgres", "dunghoinua")) {
             if (conn != null){
                 List<Driver> listResult = new LinkedList<Driver>();
                 System.out.println("Connection success");
-                String query = "SELECT * FROM Taxi WHERE cell_id = ? AND seat = ?";
+                String query = "SELECT * FROM \"TaxiPosition\" WHERE cell_id = ? AND seat = ?";
                 PreparedStatement psqlstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
                 psqlstmt.setString(1, cell_id);
                 psqlstmt.setInt(2, seat);
