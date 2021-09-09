@@ -17,7 +17,7 @@ hexAddr = h3.geo_to_h3(lat, long, res)
 seat = [2,4,7]
 choose_seat = random.choice(seat)
 
-for _ in range(1000):
+for _ in range(10000):
     requests.get("http://127.0.0.1:8081/kafka/user/publish",params={
         'longitude': long,
         'latitude': lat,

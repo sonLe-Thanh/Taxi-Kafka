@@ -13,7 +13,6 @@ public class DriverProducer {
     KafkaTemplate<String, String> kafkaTemplate;
     private static final String TOPIC = "taxi_driver_producer_1";
 
-    private static final int[] seatList = {2,4,7};
     @GetMapping("driver/publish")
     public String post(@RequestParam int id, @RequestParam double longitude, @RequestParam double latitude, @RequestParam int seat, @RequestParam String hexAddr){
         Driver newDriver = new Driver(id, longitude, latitude, seat, hexAddr);

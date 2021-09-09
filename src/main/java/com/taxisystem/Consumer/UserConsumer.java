@@ -53,7 +53,7 @@ public class UserConsumer {
 //        FileWriter fileWriter = new FileWriter(file,true);
 //        fileWriter.write(String.valueOf(stopWatch.getTotalTimeSeconds()));
 //        fileWriter.close();
-        System.out.println("Elapsed Time in minutes: "+ stopWatch.getTotalTimeSeconds());
+        System.out.println("Elapsed Time in seconds: "+ stopWatch.getTotalTimeSeconds());
         return resultString.toString();
     }
 }

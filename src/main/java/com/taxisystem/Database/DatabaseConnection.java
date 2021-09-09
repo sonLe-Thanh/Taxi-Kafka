@@ -57,4 +57,24 @@ public class DatabaseConnection {
             return listResult;
         }
     }
+
+    public static void updateDB(int driver_id, String cell_id, double latitude, double longitude){
+        String dbURL = "jdbc:postgresql://localhost:5432/postgres";
+        try (Connection conn = DriverManager.getConnection(dbURL, "postgres", "dunghoinua")) {
+            if (conn != null){
+                String query = "UPDATE \"TaxiPosition\" SET cell_id= ?, longitude = ?, latitude = ?  WHERE driver_id = ?";
+                PreparedStatement psqlstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+                psqlstmt.setString(1, cell_id);
+                psqlstmt.setDouble(2, longitude);
+                psqlstmt.setDouble(3, latitude);
+                psqlstmt.setInt(4, driver_id);
+                psqlstmt.executeUpdate();
+            }
+            else {
+                System.out.println("Failed to connect");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
 }
