@@ -20,7 +20,7 @@ public class DriverConsumer {
     public void consume(String driverInfo) throws IOException {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
-        System.out.println("Consumed message: " + driverInfo);
+        System.out.println("Message: " + driverInfo);
         String [] info  = driverInfo.split(",");
         int id = Integer.parseInt(info[0]);
         double receivedLong = Double.parseDouble(info[1]);

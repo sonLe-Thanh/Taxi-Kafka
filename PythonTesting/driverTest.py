@@ -18,7 +18,7 @@ seat = [2,4,7]
 choose_seat = random.choice(seat)
 id = 42344
 
-for _ in range(10000):
+for _ in range(10):
     requests.get("http://127.0.0.1:8081/kafka/driver/publish",params={
             'id': id,
             'longitude': long,

@@ -21,7 +21,7 @@ public class UserConsumer {
     public String consume(String driverInfo) throws IOException {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
-        System.out.println("Consumed message: " + driverInfo);
+        System.out.println("Message: " + driverInfo);
         String [] info  = driverInfo.split(",");
         int id = Integer.parseInt(info[0]);
         double receivedLong = Double.parseDouble(info[1]);
@@ -49,10 +49,6 @@ public class UserConsumer {
 
         System.out.println(resultString);
         stopWatch.stop();
-//        File file = new File("/Users/thanhson/Documents/Learn/Taxi\\ project/kafka/time.txt");
-//        FileWriter fileWriter = new FileWriter(file,true);
-//        fileWriter.write(String.valueOf(stopWatch.getTotalTimeSeconds()));
-//        fileWriter.close();
         System.out.println("Elapsed Time in seconds: "+ stopWatch.getTotalTimeSeconds());
         return resultString.toString();
     }
