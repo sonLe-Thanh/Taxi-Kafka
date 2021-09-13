@@ -82,6 +82,7 @@ public class ClosestDrivers {
         }
         else {
             kClosest = KSmallest.getKSmallestIndices(durations, k);
+//            kClosest = KSmallest.getKSmallestIndices_sort(durations, k);
         }
         int lenKClosest = kClosest.toArray().length;
         for (int i=0; i<lenKClosest;i++){
